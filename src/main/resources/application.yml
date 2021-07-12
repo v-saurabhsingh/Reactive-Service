@@ -1,0 +1,12 @@
+server:
+  port: 80
+spring:
+  data:
+   mongodb:
+    port: 27017
+    host: localhost
+    database: domino_jfl_db
+    username: domino_jfl_user
+    password: domino_jfl_pass
+    authentication-database: domino_jfl_db
+
