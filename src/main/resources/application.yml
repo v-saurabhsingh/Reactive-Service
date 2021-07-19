@@ -1,3 +1,9 @@
+cloud:
+  aws:
+    credentials:
+      access-key: AKIA4DBVAN2K3R7MDBHH
+      secret-key: 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
+      instance-profile: false
 server:
   port: 80
 spring:
