@@ -7,10 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 import software.amazon.awssdk.core.SdkBytes;
 import software.amazon.awssdk.services.ses.SesClient;
 import software.amazon.awssdk.services.ses.model.*;
-
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
@@ -28,6 +28,7 @@ import java.util.concurrent.CompletableFuture;
 public class SesServiceImpl implements SesService {
 
     private final SesClient sesClient;
+    private final SpringTemplateEngine templateEngine;
 
     @Async
     @Override

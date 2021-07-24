@@ -1,6 +1,7 @@
 package com.jfl.service.config;
 
 
+import com.jfl.service.r2dbc.entity.User;
 import dev.miku.r2dbc.mysql.MySqlConnectionConfiguration;
 import dev.miku.r2dbc.mysql.MySqlConnectionFactory;
 import io.r2dbc.spi.ConnectionFactories;
@@ -9,14 +10,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.ReactiveAuditorAware;
 import org.springframework.data.r2dbc.config.AbstractR2dbcConfiguration;
-import org.springframework.data.r2dbc.connectionfactory.R2dbcTransactionManager;
-import org.springframework.data.r2dbc.connectionfactory.init.CompositeDatabasePopulator;
-import org.springframework.data.r2dbc.connectionfactory.init.ConnectionFactoryInitializer;
-import org.springframework.data.r2dbc.connectionfactory.init.ResourceDatabasePopulator;
-import org.springframework.data.r2dbc.core.DatabaseClient;
+import org.springframework.data.r2dbc.config.EnableR2dbcAuditing;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
+import org.springframework.data.r2dbc.core.ReactiveDataAccessStrategy;
 import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
+import org.springframework.r2dbc.connection.R2dbcTransactionManager;
+import org.springframework.r2dbc.connection.init.CompositeDatabasePopulator;
+import org.springframework.r2dbc.connection.init.ConnectionFactoryInitializer;
+import org.springframework.r2dbc.connection.init.ResourceDatabasePopulator;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.ReactiveSecurityContextHolder;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.transaction.ReactiveTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.reactive.TransactionalOperator;
@@ -25,6 +31,7 @@ import java.time.ZoneId;
 
 @Slf4j
 @Configuration
+@EnableR2dbcAuditing
 @EnableTransactionManagement
 @EnableR2dbcRepositories(basePackages = "com.jfl.service.r2dbc.repo")
 public class R2dbcConfig extends AbstractR2dbcConfiguration {
@@ -46,12 +53,6 @@ public class R2dbcConfig extends AbstractR2dbcConfiguration {
     }
 
     @Bean
-    public R2dbcEntityTemplate r2dbcEntityTemplate(DatabaseClient databaseClient){
-        log.info("R2dbc EntityTemplate initialized");
-        return new R2dbcEntityTemplate(databaseClient);
-    }
-
-    @Bean
     public ReactiveTransactionManager transactionManager(ConnectionFactory connectionFactory) {
         return new R2dbcTransactionManager(connectionFactory);
     }
@@ -70,5 +71,15 @@ public class R2dbcConfig extends AbstractR2dbcConfiguration {
         populator.addPopulators(new ResourceDatabasePopulator(new ClassPathResource("data.sql")));
         initializer.setDatabasePopulator(populator);
         return initializer;
+    }
+
+    @Bean
+    public ReactiveAuditorAware<String> auditorAware() {
+        return () -> ReactiveSecurityContextHolder.getContext()
+                .map(SecurityContext::getAuthentication)
+                .filter(Authentication::isAuthenticated)
+                .map(Authentication::getPrincipal)
+                .map(User.class::cast)
+                .map(User::getUsername);
     }
 }

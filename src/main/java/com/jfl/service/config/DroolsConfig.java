@@ -31,7 +31,6 @@ public class DroolsConfig {
         return KieServices.Factory.get();
     }
 
-
     @Bean
     public KieFileSystem kieFileSystem(KieServices kieServices) throws IOException {
         log.info("KieFileSystem created......");
