@@ -89,7 +89,6 @@
 			<artifactId>aws-sdk-java</artifactId>
 			<version>${aws.java.sdk.version}</version>
 		</dependency>
-
 		<!--Dev tools-->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -151,7 +150,30 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<version>1.4.13</version>
+				<executions>
+					<execution>
+						<id>package</id>
+						<goals>
+							<goal>build</goal>
+							<goal>push</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<dockerfile>Dockerfile</dockerfile>
+					<repository>${project.artifactId}</repository>
+					<tag>${project.version}</tag>
+					<buildArgs>
+						<JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+					</buildArgs>
+				</configuration>
+			</plugin>
 		</plugins>
+		<finalName>app</finalName>
 	</build>
 
 </project>
