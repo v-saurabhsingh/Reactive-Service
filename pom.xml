@@ -165,7 +165,7 @@
 				</executions>
 				<configuration>
 					<dockerfile>Dockerfile</dockerfile>
-					<repository>hub.docker.com/singhsaurabh920/${project.artifactId}</repository>
+					<repository>singhsaurabh920/${project.artifactId}</repository>
 					<tag>${project.version}</tag>
 					<buildArgs>
 						<JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
