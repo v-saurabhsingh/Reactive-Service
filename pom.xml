@@ -164,6 +164,7 @@
 					</execution>
 				</executions>
 				<configuration>
+					<skip>false</skip>
 					<dockerfile>Dockerfile</dockerfile>
 					<repository>${project.artifactId}</repository>
 					<tag>${project.version}</tag>
