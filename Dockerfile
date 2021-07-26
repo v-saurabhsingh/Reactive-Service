@@ -9,5 +9,4 @@ ADD ${JAR_FILE} app.jar
 RUN pwd
 RUN ls
 EXPOSE 80
-CMD cat build.log
-#ENTRYPOINT ["java","-jar","app.jar"]
+ENTRYPOINT ["java","-jar","app.jar"]
