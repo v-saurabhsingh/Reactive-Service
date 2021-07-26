@@ -3,7 +3,7 @@ WORKDIR /usr/app
 ARG JAR_FILE=target/app.jar
 RUN pwd
 RUN ls
-RUN echo ${JAR_FILE} > build.log
+RUN /bin/bash -c echo ${JAR_FILE} > build.log
 #ADD ${JAR_FILE} app.jar
 RUN pwd
 RUN ls
