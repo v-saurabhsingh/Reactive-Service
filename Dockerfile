@@ -1,5 +1,5 @@
-FROM openjdk:11
 ARG JAR_FILE=target/app.jar
+FROM openjdk:11
 WORKDIR /usr/app
 RUN pwd
 RUN ls
