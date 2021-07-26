@@ -2,8 +2,7 @@
 
 #### Build application without dockerfile-maven-plugin
 
-- `mvn clean install`
-- `mvn clean install -DskipTest`
+- `mvn -DskipTests -Ddockerfile.skip=true clean install` 
 - `docker build --no-cache -t reactive-service:0.0.1-SNAPSHOT  .`
 - `docker run -itd -p 80:80 --name reactive-service reactive-service:0.0.1-SNAPSHOT`
 - `docker logs --tail 0 -f reactive-service`
@@ -11,7 +10,8 @@
 #### Build application with dockerfile-maven-plugin
 
 - `mvn clean install`
-- `mvn docker:build`
+- `mvn dockerfile:build`
+- `mvn dockerfile:deploy`
 
 #### Docker commands
 
