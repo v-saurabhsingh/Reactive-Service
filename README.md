@@ -11,7 +11,8 @@
 
 - `mvn clean install`
 - `mvn dockerfile:build`
-- `mvn dockerfile:deploy`
+- `mvn dockerfile:tag`
+- `mvn dockerfile:push`
 
 #### Docker commands
 
