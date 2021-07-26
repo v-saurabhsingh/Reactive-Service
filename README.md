@@ -1,12 +1,15 @@
 # Getting Started
 
 #### Build application without dockerfile-maven-plugin
+
 - `mvn clean install`
 - `mvn clean install -DskipTest`
 - `docker build --no-cache -t reactive-service:0.0.1-SNAPSHOT  .`
 - `docker run -itd -p 80:80 --name reactive-service reactive-service:0.0.1-SNAPSHOT`
+- `docker logs --tail 0 -f reactive-service`
 
-#### Build application without dockerfile-maven-plugin
+#### Build application with dockerfile-maven-plugin
+
 - `mvn clean install`
 - `mvn docker:build`
 
@@ -21,8 +24,13 @@
 - `docker attach reactive-service`
 - `docker exec -it reactive-service bash`
 - `docker stop reactive-service`
+- `docker start reactive-service`
 - `docker kill reactive-service`
 - `docker rm reactive-service`
 - `docker rmi reactive-service:0.0.1-SNAPSHOT`
+- `docker network ls`
+- `docker volume ls`
+- `docker logs --tail 0 -f reactive-service`
+
 
 
